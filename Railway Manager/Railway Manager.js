@@ -1,61 +1,7 @@
 // Projet Fin SAS 1 Youcode: Gestion d’un train en console “Railway Manager”
 
 prompt = require(`prompt-sync`)()
-let choix;
-do {
 
-    console.log(`
-=================================
-     ||RAILWAY MANAGER||
-=================================
-
-  1. Afficher les trajets
-  2. Acheter un ticket
-  3. Afficher les tickets
-  4. Annuler un ticket
-  5. Rechercher un ticket
-  6. Filtrer les trajets
-  7. Trier les trajets
-  0. Quitter
-`)
-    choix = prompt("votre choix : ")
-    switch (choix) {
-        case "1":
-            console.log("=== TRAJETS DISPONIBLES ===")
-            console.log(lesTrajes(choix))
-            break;
-        case "2":
-            console.log("Acheter un ticket ")
-            break;
-        case "3":
-            console.log("Afficher les tickets ")
-            break;
-        case "4":
-            console.log(" Annuler un ticket")
-            break;
-        case "5":
-            console.log("Rechercher un ticket")
-            break;
-        case "6":
-            console.log("Filtrer les trajets")
-            break;
-        case "7":
-            console.log("Trier les trajets")
-            break;
-        case "0":
-            console.log(`=====
-                tu annules le programme,
-                Nous attendons ton retour        
-                                                    =====`)
-            break;
-        default:
-            console.log("choix invalide")
-    }
-}
-while (choix != 0);
-
-function lesTrajes(choix) {
-    if (choix == 1) {
         const trips = [
             {
                 id: 1,
@@ -238,12 +184,91 @@ function lesTrajes(choix) {
                 availableSeats: 50
             }
         ];
-        afficherLestrajets(trips);
+
+let choix;
+do {
+
+    console.log(`
+=================================
+       ||RAILWAY MANAGER||
+=================================
+
+  1. Afficher les trajets
+  2. Acheter un ticket
+  3. Afficher les tickets
+  4. Annuler un ticket
+  5. Rechercher un ticket
+  6. Filtrer les trajets
+  7. Trier les trajets
+  0. Quitter
+`)
+    choix = prompt("votre choix : ")
+    switch (choix) {
+        case "1":
+            console.log(`=====                         =====
+        TRAJETS DISPONIBLES  `)
+                            afficherLestrajets(trips) 
+            break;
+        case "2":
+            console.log("Acheter un ticket ")
+                        console.log(acheterTicket(trips));
+            break;
+        case "3":
+            console.log("Afficher les tickets ")
+            break;
+        case "4":
+            console.log(" Annuler un ticket")
+            break;
+        case "5":
+            console.log("Rechercher un ticket")
+            break;
+        case "6":
+            console.log("Filtrer les trajets")
+            break;
+        case "7":
+            console.log("Trier les trajets")
+            break;
+        case "0":
+            console.log(`=====
+                tu annules le programme,
+                Nous attendons ton retour        
+                                                    =====`)
+            break;
+        default:
+            console.log("choix invalide")
+
+    }
+}
+while (choix != "0");
+
+function afficherLestrajets(trips) {
+    for (let trip of trips) {
+        if(trip.availableSeats > 0){
+        console.log(trip)
+    }
     }
 }
 
-function afficherLestrajets(trips) {
-    for (trip of trips) {
-        console.log(trip)
+
+function acheterTicket(trips){
+    let nome = +prompt("Nom du passager : ")
+     let Id = +prompt("Identifiant du trajet : ")
+
+    for(let trip of trips){
+        if(trip.id = Id &&  trip.availableSeats > 0){
+            return //creer ticket
+        }
+        else if(trip.availableSeats <= 0) {
+            console.log("trip !!")
+            break;
+        }
+        else{
+            console.log("trajet n'es pas disponible!!")
+        }
+        
     }
 }
+const tickets = [];
+ function creerTicket(name,Id){
+    
+ }
