@@ -186,9 +186,9 @@ const trips = [
 ];
 
 let choix;
-const tickets = [];
+let tickets = [];
 let countId = 0;
-let countSeatnumbers = 50;
+let countSeatnumbers = 0
 
 do {
 
@@ -219,11 +219,15 @@ do {
             acheterTicket(trips);
             break;
         case "3":
-            console.log("Afficher les tickets ")
-            console.table(tickets)
+            console.log("=== TICKETS === ")
+            if (tickets.lengt == 0)
+                console.log("il ne'as pas un ticket")
+            else
+                console.table(tickets)
             break;
         case "4":
             console.log(" Annuler un ticket")
+            anulerTicket()
             break;
         case "5":
             console.log("Rechercher un ticket")
@@ -245,7 +249,7 @@ do {
 
     }
 }
-while (choix != "0");
+while (choix !== "0");
 
 function afficherLestrajets(trips) {
     for (let trip of trips) {
@@ -257,21 +261,23 @@ function afficherLestrajets(trips) {
 }
 
 function acheterTicket(trips) {
+
     let name = prompt("Nom du passager : ")
-    let Id = +prompt("Identifiant du trajet : ")
+    let Idtrip = +prompt("Identifiant du trajet : ")
 
     for (let trip of trips) {
+        if (trip.id == Idtrip && trip.availableSeats > 0) {
 
-        if (trip.id == Id && trip.availableSeats > 0) {
+            let ticket = creerTicket(name, Idtrip, trip.price)
 
-            let ticket = creerTicket(name, Id, trip.price)
+            console.log(ticket)
 
             tickets[tickets.length] = ticket
 
             trip.availableSeats -= 1
 
             console.log(`
-                ++Ticket acheté avec succès.`)
+                ++Ticket acheté avec succès.  `)
 
             return;
         }
@@ -286,21 +292,59 @@ function acheterTicket(trips) {
 }
 
 
-function creerTicket(name, Id, price) {
+function creerTicket(name, Idtrip, price) {
 
     countId++
-    countSeatnumbers--
+    countSeatnumbers++
 
-    ticket = {
+    let ticket = {
         id: countId,
         passengerName: name,
-        tripId: Id,
+        tripId: Idtrip,
         seatNumber: countSeatnumbers,
         price: price
     }
     return ticket
 }
 
-function anulerTicket(){
-    
+function anulerTicket() {
+    let IdTicket = +prompt("entrer Identifiant du ticket : ")
+
+    for (let i = 0; i < tickets.length; i++) {
+
+        if (tickets[i].id === IdTicket) {
+
+            console.log(tickets[i])
+
+            let validanulation = prompt("voulez-vous annuler ce ticket : Oui / Non : ")
+
+            if (validanulation == "oui") {
+                deleteTicket(IdTicket)
+                console.log("Ticket supprimé avec succès.");
+                return
+            }
+            else if (validanulation == "non") {
+                console.log("le processus a été annulé . ")
+                return
+            }
+            return;
+        }
+    }
+    console.log("Ticket introuvable. ")
 }
+
+function deleteTicket(IdTicket) {
+
+    let newarraytickets = [];
+    let newarrayindex = 0;
+
+    for (let ticket of tickets) {
+        if (ticket.id !== IdTicket) {
+            newarraytickets[newarrayindex] = ticket;
+            newarrayindex++;
+        }
+    }
+    tickets = newarraytickets;
+}
+
+
