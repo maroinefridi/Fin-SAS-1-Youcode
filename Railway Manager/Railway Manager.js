@@ -220,7 +220,7 @@ do {
             break;
         case "3":
             console.log("=== TICKETS === ")
-            if (tickets.lengt == 0)
+            if (tickets.length == 0)
                 console.log("il ne'as pas un ticket")
             else
                 console.table(tickets)
@@ -228,13 +228,14 @@ do {
         case "4":
             console.log(" Annuler un ticket")
             anulerTicket()
-            
+            break;
         case "5":
             console.log("Rechercher un ticket")
             RechercherTicket()
             break;
         case "6":
             console.log("Filtrer les trajets")
+            FiltrerTrajets()
             break;
         case "7":
             console.log("Trier les trajets")
@@ -292,12 +293,15 @@ function acheterTicket(trips) {
 
 }
 
+let uniqueTragjet = []
 
 function creerTicket(name, Idtrip, price) {
 
     countId++
+    
+    if (uniqueTragjet.includes(Idtrip)){
     countSeatnumbers++
-
+    }
     let ticket = {
         id: countId,
         passengerName: name,
@@ -305,6 +309,8 @@ function creerTicket(name, Idtrip, price) {
         seatNumber: countSeatnumbers,
         price: price
     }
+    
+    uniqueTragjet.push(Idtrip)
     return ticket
 }
 
@@ -319,7 +325,7 @@ function anulerTicket() {
 
             let validanulation = prompt("voulez-vous annuler ce ticket : Oui / Non : ")
 
-            if (validanulation == "oui") {
+            if (validanulation.toLowerCase() == "oui") {
                 augmentPlaces(IdTicket)
                 deleteTicket(IdTicket)
                 console.log("Ticket supprimé avec succès.");
@@ -333,6 +339,7 @@ function anulerTicket() {
         }
     }
     console.log("Ticket introuvable. ")
+    return 
 }
 
 function deleteTicket(IdTicket) {
@@ -364,5 +371,24 @@ function augmentPlaces(Idticket) {
         }
     }
 }
+
+function RechercherTicket(){
+    let nometicket = prompt("nome du passager : ") 
+    for(let ticket of tickets){
+        if(ticket.passengerName == nometicket){
+            console.log(ticket)
+        }
+    }
+}
+
+function FiltrerTrajets(){
+    let villeDepart = prompt("Ville de dépar : ")
+    for (let trip of trips){
+        if(trip.departure.toLowerCase() == villeDepart.toLowerCase()){
+            console.table(trip)
+        }
+    }
+}
+
 
 
