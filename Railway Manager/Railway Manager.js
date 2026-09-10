@@ -186,6 +186,10 @@ const trips = [
 ];
 
 let choix;
+const tickets = [];
+let countId = 0;
+let countSeatnumbers = 50;
+
 do {
 
     console.log(`
@@ -212,10 +216,11 @@ do {
             break;
         case "2":
             console.log("Acheter un ticket ")
-            console.log(acheterTicket(trips));
+            acheterTicket(trips);
             break;
         case "3":
             console.log("Afficher les tickets ")
+            console.table(tickets)
             break;
         case "4":
             console.log(" Annuler un ticket")
@@ -244,47 +249,58 @@ while (choix != "0");
 
 function afficherLestrajets(trips) {
     for (let trip of trips) {
-        if (trip.availableSeats > 0){ 
+        if (trip.availableSeats > 0) {
             console.table(trips)
             break;
         }
     }
 }
 
-const tickets = [];
-
 function acheterTicket(trips) {
     let name = prompt("Nom du passager : ")
     let Id = +prompt("Identifiant du trajet : ")
 
     for (let trip of trips) {
-        if (trip.id = Id && trip.availableSeats > 0) {
-            console.log("++Ticket acheté avec succès.")
-            console.log(creerTicket(name, Id, trip.price))
+
+        if (trip.id == Id && trip.availableSeats > 0) {
+
+            let ticket = creerTicket(name, Id, trip.price)
+
+            tickets[tickets.length] = ticket
+
+            trip.availableSeats -= 1
+
+            console.log(`
+                ++Ticket acheté avec succès.`)
+
             return;
         }
+
         else if (trip.availableSeats <= 0) {
             console.log("Train complet. ")
             return;
         }
-        else {
-            console.log("Trajet introuvable.")
-            return;
-        }
-
     }
-     
-    return tickets
+    console.log("Trajet introuvable.")
+
 }
+
 
 function creerTicket(name, Id, price) {
 
-        let ticket = {
-            id: tickets.length+1 ,
-            passengerName: name ,
-            tripId: Id ,
-            seatNumber: tickets.lenght+1,
-            price: price 
-        }
-       return ticket
+    countId++
+    countSeatnumbers--
+
+    ticket = {
+        id: countId,
+        passengerName: name,
+        tripId: Id,
+        seatNumber: countSeatnumbers,
+        price: price
     }
+    return ticket
+}
+
+function anulerTicket(){
+    
+}
