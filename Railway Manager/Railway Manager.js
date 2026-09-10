@@ -228,9 +228,10 @@ do {
         case "4":
             console.log(" Annuler un ticket")
             anulerTicket()
-            break;
+            
         case "5":
             console.log("Rechercher un ticket")
+            RechercherTicket()
             break;
         case "6":
             console.log("Filtrer les trajets")
@@ -319,6 +320,7 @@ function anulerTicket() {
             let validanulation = prompt("voulez-vous annuler ce ticket : Oui / Non : ")
 
             if (validanulation == "oui") {
+                augmentPlaces(IdTicket)
                 deleteTicket(IdTicket)
                 console.log("Ticket supprimé avec succès.");
                 return
@@ -345,6 +347,22 @@ function deleteTicket(IdTicket) {
         }
     }
     tickets = newarraytickets;
+}
+
+function augmentPlaces(Idticket) {
+
+    for (let ticket of tickets) {
+        if (ticket.id === Idticket) {
+            for (let trip of trips) {
+                if (trip.id === ticket.tripId) {
+                    trip.availableSeats++;
+                    break;
+                }
+            }
+
+            break;
+        }
+    }
 }
 
 
