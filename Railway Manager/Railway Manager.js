@@ -239,6 +239,7 @@ do {
             break;
         case "7":
             console.log("Trier les trajets")
+            console.table(TrierTrajet(trips))
             break;
         case "0":
             console.log(`=====
@@ -293,15 +294,19 @@ function acheterTicket(trips) {
 
 }
 
-let uniqueTragjet = []
+
 
 function creerTicket(name, Idtrip, price) {
+    countId++;
 
-    countId++
-    
-    if (uniqueTragjet.includes(Idtrip)){
-    countSeatnumbers++
+    let countSeatnumbers = 1;
+
+    for (let ticket of tickets) {
+        if (ticket.tripId === Idtrip) {
+            countSeatnumbers++;
+        }
     }
+
     let ticket = {
         id: countId,
         passengerName: name,
@@ -309,8 +314,8 @@ function creerTicket(name, Idtrip, price) {
         seatNumber: countSeatnumbers,
         price: price
     }
-    
-    uniqueTragjet.push(Idtrip)
+
+
     return ticket
 }
 
@@ -339,7 +344,7 @@ function anulerTicket() {
         }
     }
     console.log("Ticket introuvable. ")
-    return 
+    return
 }
 
 function deleteTicket(IdTicket) {
@@ -372,22 +377,40 @@ function augmentPlaces(Idticket) {
     }
 }
 
-function RechercherTicket(){
-    let nometicket = prompt("nome du passager : ") 
-    for(let ticket of tickets){
-        if(ticket.passengerName == nometicket){
+function RechercherTicket() {
+    let nometicket = prompt("nome du passager : ")
+    for (let ticket of tickets) {
+        if (ticket.passengerName == nometicket) {
             console.log(ticket)
         }
     }
 }
 
-function FiltrerTrajets(){
+function FiltrerTrajets() {
     let villeDepart = prompt("Ville de dépar : ")
-    for (let trip of trips){
-        if(trip.departure.toLowerCase() == villeDepart.toLowerCase()){
+    for (let trip of trips) {
+        if (trip.departure.toLowerCase() == villeDepart.toLowerCase()) {
             console.table(trip)
         }
     }
+}
+
+
+
+function TrierTrajet(Trips) {
+
+    for (let i = 0; i < Trips.length - 1; i++) {
+        for (let j = i+1 ; j < Trips.length ; j++) {
+
+            if (Trips[i].price > Trips[j ].price) {
+                let temp = Trips[i];
+                Trips[i] = Trips[j ];
+                Trips[j] = temp;
+            }
+        }
+    }
+
+    return Trips;
 }
 
 
